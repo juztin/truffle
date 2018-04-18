@@ -1,0 +1,49 @@
+#!/bin/bash
+#
+# Starts a truffle instance within the current directory.
+# If the instance is already started, the command is executed within the currently running container.
+#
+# eg.
+#
+#   Console #1 _(Starts a new Truffle container)_
+#    ```
+#    % mkdir truffle_test
+#    % truffle init
+#    % truffle develop
+#   ```
+#
+#   Console #2 _(Executes the command within the container created above)_
+#    ```
+#    % truffle develop --log
+#   ```
+#
+
+start() {
+docker run \
+	-it \
+	--rm \
+	--name $CONTAINER_NAME \
+	--publish 7545:7545 \
+	--publish 9545:9545 \
+	--user $UID:$GID \
+	--volume "$(pwd)":/src \
+	minty/truffle "$@"
+}
+
+exec() {
+docker exec \
+	-w /src \
+	$CONTAINER_NAME "$@"
+}
+
+
+CONTAINER_NAME="truffle_"${PWD##*/}
+IS_RUNNING=$(docker ps -f "name=$CONTAINER_NAME" --format '{{.Names}}')
+
+if [[ -z "$IS_RUNNING" ]]; then
+	echo "Starting container: $CONTAINER_NAME"
+	start "$@"
+else
+	echo "Executing in container: $CONTAINER_NAME"
+	exec "$@"
+fi
