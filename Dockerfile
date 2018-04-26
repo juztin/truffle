@@ -5,6 +5,7 @@ FROM node:alpine
 
 
 ENV NPM_CONFIG_PREFIX=/.npm
+ENV PATH="${PATH}:/.npm/bin"
 
 EXPOSE 7545
 EXPOSE 9545
