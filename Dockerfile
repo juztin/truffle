@@ -13,10 +13,11 @@ ENV PATH="${PATH}:/.npm/bin"
 EXPOSE 7545
 EXPOSE 9545
 
-RUN mkdir /src && \
-	mkdir /.npm && \
-	chown -R nobody:nogroup /.npm && \
-	chmod 777 -R /.npm && \
+RUN apk update && \
+	apk add git openssh && \
+	mkdir /src /.npm /.config && \
+	chown -R nobody:nogroup /.npm /.config && \
+	chmod 777 -R /.npm /.config && \
 	npm install -g truffle@$VERSION
 
 WORKDIR /src
