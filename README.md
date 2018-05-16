@@ -1,7 +1,24 @@
-## Simple Docker image with Truffle.
+## Simple Docker Image with Truffle/Node/NPM.
 
 ### Setup
 
- - Clone this repo and place the `/bin` folder in your path.  
-   _(or, copy the `truffle` script from `/bin`, and place it in your path)_
- - Invoke Truffle like you normally would
+ - Clone this repo  
+ 
+   ```bash
+   % git clone git@github.com:juztin/truffle.git
+   ```
+
+ - Copy/symlink `bin/truffle` to a location in your path  
+   _eg._  
+   
+   ```bash
+   % ln -s {repo-path}/bin/truffle ~/bin/truffle
+   ```
+ 
+ - Add the environment variable, `TRUFFLE_VERSION`, to your profile, setting it to the version you want to target.  
+ 
+   ```bash
+   % echo "TRUFFLE_VERSION=4.1.8" >> ~/.profile
+   ```
+
+You should now be able to invoke Truffle like you normally would.
