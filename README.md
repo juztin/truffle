@@ -1,4 +1,4 @@
-## Simple Docker Image with Truffle/Node/NPM.
+## Simple Docker Image with Truffle/Node/NPM/Python2.
 
 ### Setup
 
