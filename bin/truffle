@@ -24,9 +24,9 @@
 #   ```
 #
 
-IMAGE="minty/truffle"
+IMAGE="minty/truffle:py2"
 if [ -n "$TRUFFLE_VERSION" ];then
-	IMAGE="$IMAGE:$TRUFFLE_VERSION"
+	IMAGE="$IMAGE-$TRUFFLE_VERSION"
 fi
 
 
@@ -34,7 +34,7 @@ start() {
 CMD="$IMAGE $@"
 if [ $IS_SHELL = true ]; then
 	OPTS="--entrypoint /bin/sh"
-	CMD="minty/truffle"
+	CMD="$IMAGE"
 fi
 
 docker run \
