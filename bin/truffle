@@ -34,7 +34,7 @@ start() {
 CMD="$IMAGE $@"
 if [ $IS_SHELL = true ]; then
 	OPTS="--entrypoint /bin/sh"
-	CMD="minty/truffle"
+	CMD="$IMAGE"
 fi
 
 docker run \
