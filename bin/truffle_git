@@ -45,7 +45,7 @@ docker run \
 	--publish 7545:7545 \
 	--publish 9545:9545 \
 	--volume "$(pwd)":/src \
-	--volume "$HOME/.ssh":/.ssh:ro \
+	--volume "$HOME/.ssh":/root/.ssh:ro \
 	$CMD
 }
 
