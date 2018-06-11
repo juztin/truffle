@@ -1,0 +1,72 @@
+#!/bin/bash
+#
+# Starts a truffle instance within the current directory, with your local .ssh mounted for private Git repos.
+# If the instance is already started, the command is executed within the currently running container.
+#
+# eg.
+#
+#   Console #1 _(Starts a new Truffle container)_
+#   ```
+#    % mkdir truffle_test
+#    % truffle init
+#    % truffle develop
+#   ```
+#
+#   Console #2 _(Executes the command within the container created above)_
+#   ```
+#    % truffle develop --log
+#   ```
+#
+# To run a container and drop into the shell (no Truffle command) pass in `shell` as the first argument.
+#
+#   ```
+#    % truffle shell
+#   ```
+#
+
+IMAGE="minty/truffle:py2"
+if [ -n "$TRUFFLE_VERSION" ];then
+	IMAGE="$IMAGE-$TRUFFLE_VERSION"
+fi
+
+
+start() {
+CMD="$IMAGE $@"
+if [ $IS_SHELL = true ]; then
+	OPTS="--entrypoint /bin/sh"
+	CMD="$IMAGE"
+fi
+
+docker run \
+	-it \
+	$OPTS \
+	--rm \
+	--name $CONTAINER_NAME \
+	--publish 7545:7545 \
+	--publish 9545:9545 \
+	--volume "$(pwd)":/src \
+	--volume "$HOME/.ssh":/root/.ssh:ro \
+	$CMD
+}
+
+exec() {
+docker exec \
+	-w /src \
+	$CONTAINER_NAME "$@"
+}
+
+
+CONTAINER_NAME="truffle_"${PWD##*/}
+IS_RUNNING=$(docker ps -f "name=$CONTAINER_NAME" --format '{{.Names}}')
+IS_SHELL=false
+
+if [[ -z "$IS_RUNNING" ]]; then
+	echo "Starting container: $CONTAINER_NAME"
+	if [ "$1" == "shell" ]; then
+		IS_SHELL=true
+	fi
+	start "$@"
+else
+	echo "Executing in container: $CONTAINER_NAME"
+	exec "$@"
+fi
