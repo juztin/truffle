@@ -16,8 +16,8 @@ EXPOSE 9545
 RUN apk update && \
 	apk add git openssh alpine-sdk && \
 	mkdir /src /.npm /.config && \
-	chown -R nobody:nogroup /.npm /.config && \
-	chmod 777 -R /.npm /.config && \
+	chown -R nobody:nogroup /.npm /.config /.node-gyp && \
+	chmod 777 -R /.npm /.config /.node-gyp && \
 	npm install -g truffle@$VERSION
 
 WORKDIR /src
