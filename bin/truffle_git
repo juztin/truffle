@@ -26,7 +26,7 @@
 
 IMAGE="minty/truffle"
 if [ -n "$TRUFFLE_VERSION" ];then
-	IMAGE="$IMAGE-$TRUFFLE_VERSION"
+	IMAGE="$IMAGE:$TRUFFLE_VERSION"
 fi
 
 
