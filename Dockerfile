@@ -4,7 +4,7 @@
 FROM node:alpine
 
 
-ENV VERSION=4.1.8
+ENV VERSION=4.1.13
 
 
 ENV NPM_CONFIG_PREFIX=/.npm
